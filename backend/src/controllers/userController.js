@@ -33,7 +33,37 @@ const getAllUsers = async (req, res) => {
   }
 };
 
+const getUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await userService.getUserById(id);
+    if (!user) {
+      return res.status(404).json({ error: 'Usuario no encontrado.' });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    console.error("Error fetching user by ID:", error);
+    res.status(500).json({ error: 'Error al obtener el usuario.' });
+  }
+};
+
+const deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await userService.deleteUser(id);
+    res.status(200).json({ message: 'Usuario eliminado correctamente' });
+  } catch (error) {
+    if (error.code === 'P2025') {
+      return res.status(404).json({ error: 'Usuario no encontrado.' });
+    }
+    console.error("Error deleting user:", error);
+    res.status(500).json({ error: 'Error al eliminar el usuario.' });
+  }
+};
+
 module.exports = {
   createUser,
-  getAllUsers
+  getAllUsers,
+  getUserById,
+  deleteUser
 };
