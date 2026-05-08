@@ -9,7 +9,7 @@ export default function App() {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch('/api/users');
+      const response = await fetch('https://app-estudio-ia-production.up.railway.app/');
       if (!response.ok) throw new Error('Error al cargar usuarios');
       const data = await response.json();
       setUsers(data);
@@ -23,7 +23,7 @@ export default function App() {
       .then(response => response.json())
       .then(data => setHealthStatus(data.status))
       .catch(() => setHealthStatus('Desconectado'));
-    
+
     fetchUsers();
   }, []);
 
@@ -36,12 +36,12 @@ export default function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, name })
       });
-      
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Error al crear usuario');
       }
-      
+
       setEmail('');
       setName('');
       fetchUsers();
@@ -206,7 +206,7 @@ export default function App() {
                 <h3 style={{ fontSize: '1.1rem', marginBottom: '0.25rem' }}>{user.name}</h3>
                 <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>{user.email}</p>
               </div>
-              <button 
+              <button
                 onClick={() => handleDeleteUser(user.id)}
                 className="btn-delete"
               >

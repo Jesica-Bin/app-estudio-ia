@@ -20,8 +20,15 @@ const getSubjectById = async (id) => {
   });
 };
 
+const deleteSubject = async (id) => {
+  return await prisma.subject.delete({
+    where: { id }
+  });
+};
+
 module.exports = {
   createSubject,
   getAllSubjects,
-  getSubjectById
+  getSubjectById,
+  deleteSubject
 };

@@ -44,8 +44,23 @@ const getSubjectById = async (req, res) => {
   }
 };
 
+const deleteSubject = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await subjectService.deleteSubject(id);
+    res.status(200).json({ message: 'Materia eliminada correctamente' });
+  } catch (error) {
+    if (error.code === 'P2025') {
+      return res.status(404).json({ error: 'Materia no encontrada.' });
+    }
+    console.error("Error deleting subject:", error);
+    res.status(500).json({ error: 'Error al eliminar la materia.' });
+  }
+};
+
 module.exports = {
   createSubject,
   getAllSubjects,
-  getSubjectById
+  getSubjectById,
+  deleteSubject
 };
