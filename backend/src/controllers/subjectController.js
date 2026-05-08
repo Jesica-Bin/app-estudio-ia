@@ -20,6 +20,32 @@ const createSubject = async (req, res) => {
   }
 };
 
+const getAllSubjects = async (req, res) => {
+  try {
+    const subjects = await subjectService.getAllSubjects();
+    res.status(200).json(subjects);
+  } catch (error) {
+    console.error("Error fetching subjects:", error);
+    res.status(500).json({ error: 'Error al obtener las materias.' });
+  }
+};
+
+const getSubjectById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const subject = await subjectService.getSubjectById(id);
+    if (!subject) {
+      return res.status(404).json({ error: 'Materia no encontrada.' });
+    }
+    res.status(200).json(subject);
+  } catch (error) {
+    console.error("Error fetching subject by ID:", error);
+    res.status(500).json({ error: 'Error al obtener la materia.' });
+  }
+};
+
 module.exports = {
-  createSubject
+  createSubject,
+  getAllSubjects,
+  getSubjectById
 };

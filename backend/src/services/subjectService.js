@@ -10,6 +10,18 @@ const createSubject = async (subjectData) => {
   });
 };
 
+const getAllSubjects = async () => {
+  return await prisma.subject.findMany();
+};
+
+const getSubjectById = async (id) => {
+  return await prisma.subject.findUnique({
+    where: { id }
+  });
+};
+
 module.exports = {
-  createSubject
+  createSubject,
+  getAllSubjects,
+  getSubjectById
 };
